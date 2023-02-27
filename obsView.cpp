@@ -51,7 +51,7 @@ BOOL CobsView::PreCreateWindow(CREATESTRUCT& cs)
 
 // CobsView 绘图
 
-void CobsView::OnDraw(CDC* /*pDC*/)
+void CobsView::OnDraw(CDC* pDC)
 {
 	CobsDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
@@ -59,6 +59,22 @@ void CobsView::OnDraw(CDC* /*pDC*/)
 		return;
 
 	// TODO: 在此处为本机数据添加绘制代码
+	//客户区大小
+	CRect rc;
+	GetClientRect(&rc);
+
+	//屏幕大小
+	int nWidthScreen = GetSystemMetrics(SM_CXSCREEN);
+	int nHeightScreen = GetSystemMetrics(SM_CYSCREEN);
+
+	CDC dcScreen;
+	dcScreen.CreateDC("DISPLAY", NULL, NULL, NULL);
+
+	pDC->StretchBlt(
+		0, 0, rc.Width(), rc.Height(),
+		&dcScreen, 0, 0, nWidthScreen, nHeightScreen,
+		SRCCOPY
+	);
 }
 
 
