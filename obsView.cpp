@@ -27,6 +27,8 @@ BEGIN_MESSAGE_MAP(CobsView, CView)
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
+	ON_WM_CREATE()
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 // CobsView 构造/析构
@@ -119,3 +121,24 @@ CobsDoc* CobsView::GetDocument() const // 非调试版本是内联的
 
 
 // CobsView 消息处理程序
+
+
+int CobsView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CView::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  在此添加您专用的创建代码
+	SetTimer(0, 10, NULL);
+
+	return 0;
+}
+
+
+void CobsView::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	InvalidateRect(NULL, FALSE);
+
+	CView::OnTimer(nIDEvent);
+}
